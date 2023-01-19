@@ -36,7 +36,7 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("demo").innerHTML = "осталось " + minutes + " минут";
+            document.getElementById("demo").innerHTML = "осталось " + (minutes + 1) + " минут";
 
             if (distance < 0) {
                 clearInterval(x);

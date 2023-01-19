@@ -12,7 +12,7 @@ scope = ['https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive']
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
-    '/home/sizematters/mysite/creds.json', scope
+    'creds.json', scope
 )
 
 gc = gspread.authorize(credentials)
