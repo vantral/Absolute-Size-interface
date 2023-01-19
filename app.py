@@ -54,6 +54,7 @@ def small():
 
     tp = request.args.get('type')
     gender = request.args.get('gender')
+    language = request.args.get('language')
     duration = 0
 
     if request.args.get('age'):
@@ -66,9 +67,9 @@ def small():
         duration = int(request.args.get('duration_big'))
         link = 'finish'
         stop = 0
-        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:8]
+        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:9]
         print(table[table['id'] == int(person_id)])
-        table[table['id'] == int(person_id)] = [person_id, age, tp, big, '', duration / 1000, 0, gender]
+        table[table['id'] == int(person_id)] = [person_id, age, language, tp, big, '', duration / 1000, 0, gender]
         set_with_dataframe(worksheet, table)
     else:
         big = ''
@@ -77,6 +78,7 @@ def small():
         data = {
             'id': person_id,
             'age': age,
+            'language': language,
             'type': tp,
             'big': big,
             'small': '',
@@ -84,7 +86,7 @@ def small():
         }
         print(data)
         df = pd.DataFrame([data])
-        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:8]
+        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:9]
         df = pd.concat([table, df])
         set_with_dataframe(worksheet, df)
 
@@ -98,7 +100,8 @@ def small():
         person_id=person_id,
         duration_big=duration,
         duration_small=request.args.get('duration_small'),
-        gender=gender
+        gender=gender,
+        language=language
     ))
 
 @app.route('/big')
@@ -112,6 +115,7 @@ def big():
 
     tp = request.args.get('type')
     gender = request.args.get('gender')
+    language = request.args.get('language')
     duration = 0
 
     if request.args.get('age'):
@@ -124,8 +128,8 @@ def big():
         duration = int(request.args.get('duration_small'))
         link = 'finish'
         stop = 0
-        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:8]
-        table[table['id'] == int(person_id)] = [person_id, age, tp, '', small, 0, duration / 1000, gender]
+        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:9]
+        table[table['id'] == int(person_id)] = [person_id, age, language, tp, '', small, 0, duration / 1000, gender]
         set_with_dataframe(worksheet, table)
     else:
         small = ''
@@ -134,20 +138,21 @@ def big():
         data = {
             'id': person_id,
             'age': age,
+            'language': language,
             'type': tp,
             'big': '',
             'small': small,
             'gender': gender
         }
         df = pd.DataFrame([data])
-        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:8]
+        table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:9]
         df = pd.concat([table, df])
         set_with_dataframe(worksheet, df)
     return(render_template(
         'big.html', link=link, stop=stop, age=age,
         small=small, type=tp, person_id=person_id,
         duration_small=duration, duration_big=request.args.get('duration_big'),
-        gender=gender))
+        gender=gender, language=language))
 
 
 @app.route('/finish')
@@ -158,7 +163,7 @@ def finish():
     #     'big': request.args.get('big'),
     #     'small': request.args.get('small')
     # }
-    table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:8]
+    table = get_as_dataframe(worksheet).dropna(how='all').iloc[:,:9]
     duration_big = request.args.get('duration_big')
     duration_small = request.args.get('duration_small')
 
@@ -166,6 +171,7 @@ def finish():
     table[table['id'] == int(request.args.get('id'))] = [
         request.args.get('id'),
         request.args.get('age'),
+        request.args.get('language'),
         request.args.get('type'),
         request.args.get('big'),
         request.args.get('small'),

@@ -54,13 +54,14 @@
 
     <div style="text-align: left;margin:auto" class="search grey">
         <div class="container-fluid yellow" style="color: white;font-size: x-large;text-shadow: grey 4px 3px 15px;">
-            <a name="search">возраст и гендер</a>
+            <a name="search">возраст, пол и язык</a>
         </div>
         <div class="container" style="padding: 50px 30px;">
             <form action="/{{link}}" method="GET" autocomplete="off">
                 <!-- <label>Возраст</label> -->
                 <input required type="number" step="1" class="form-control" name="age" id="main input" placeholder="укажите сколько вам полных лет">
                 <input class="form-control" name="gender" placeholder="укажите ваш пол/гендер" style="margin-top: 1em;">
+                <input class="form-control" name="language" placeholder="ваш родной язык" style="margin-top: 1em;">
                 <div style="display: none;">
                     <input name="stop" value="{{ stop }}">
                     <input name="type" value="{{ type }}">
